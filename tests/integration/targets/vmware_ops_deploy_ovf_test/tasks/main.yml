@@ -46,6 +46,10 @@
   tags:
     - eco-vcenter-ci
   block:
+    - name: Import common vars
+      ansible.builtin.include_vars:
+        file: ../group_vars.yml
+
     - name: Test Deploy OVF From Local Filesystem
       ansible.builtin.import_role:
         name: cloud.vmware_ops.deploy_ovf
