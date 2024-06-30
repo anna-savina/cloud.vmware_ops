@@ -9,6 +9,16 @@
         file: ../../integration_config.yml
       tags: eco-vcenter-ci
 
+    # File stored common for all tests specific vcenter settings
+    # and encrypted with ansible vault 
+    # use ansible-vault edit command to modify the file
+    # password is vcenter_password
+    # see group_vars.yml.tpl for details
+    - name: Import common vars
+      ansible.builtin.include_vars:
+        file: ../group_vars.yml
+      tags: eco-vcenter-ci
+
     - name: Import simulator vars
       ansible.builtin.include_vars:
         file: vars.yml
