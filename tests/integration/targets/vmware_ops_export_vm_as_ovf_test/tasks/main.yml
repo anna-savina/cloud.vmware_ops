@@ -11,7 +11,7 @@
         validate_certs: false
         name: "{{ export_vm_as_ovf_vm_name }}"
         state: poweredoff
-        folder: /Eco-Datacenter/vm/e2e-qe
+        folder: '/"{{ vcenter_datacenter }}"/vm/e2e-qe'
         datacenter: "{{ export_vm_as_ovf_datacenter_name }}"
         disk:
           - size_gb: 5

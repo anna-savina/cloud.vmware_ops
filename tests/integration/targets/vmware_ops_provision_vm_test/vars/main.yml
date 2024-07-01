@@ -4,9 +4,9 @@ provision_vm_username: "{{ vcenter_username }}"
 provision_vm_password: "{{ vcenter_password }}"
 provision_vm_validate_certs: false
 
-provision_vm_cluster: "Eco-Cluster"
-provision_vm_folder: "/Eco-Datacenter/vm/e2e-qe"
-provision_vm_datacenter: "Eco-Datacenter"
+provision_vm_cluster: "{{ vcenter_cluster_name }}"
+provision_vm_folder: '/{{ vcenter_datacenter }}/vm/e2e-qe'
+provision_vm_datacenter: "{{ vcenter_datacenter }}"
 
 # Create VM template
 provision_vms_template:
@@ -19,7 +19,7 @@ provision_vms_template:
         type: iso
         iso_path: "[datastore1] ISO/rhel-9.3-x86_64-dvd.iso"
     provision_vm_networks:
-      - name: "VM Network"
+      - name: "{{ vm_network_name }}"
         device_type: "vmxnet3"
         mac: "00:50:56:bd:d2:9e"
         type: "dhcp"
@@ -54,7 +54,7 @@ provision_vms:
         type: iso
         iso_path: "[datastore1] ISO/rhel-9.3-x86_64-dvd.iso"
     provision_vm_networks:
-      - name: "VM Network"
+      - name: "{{ vm_network_name }}"
         device_type: "vmxnet3"
         mac: "00:50:56:bd:d2:9e"
         type: "dhcp"
@@ -80,7 +80,7 @@ provision_vms:
         type: iso
         iso_path: "[datastore1] ISO/rhel-8.9-x86_64-boot.iso"
     provision_vm_networks:
-      - name: "VM Network"
+      - name: "{{ vm_network_name }}"
         device_type: "vmxnet3"
         mac: "00:50:56:bd:d2:9e"
         type: "dhcp"
