@@ -11,3 +11,18 @@ datastore1_rhel_8_9_iso_path: "[datastore1] ISO/rhel-8.9-x86_64-boot.iso"
 datastore1_rhel_9_3_iso_path: "[datastore1] ISO/rhel-9.3-x86_64-dvd.iso"
 vm_network_name: "VM Network"
 test_network_name: "TestNetwork"
+
+# list of mac addresses used in tests
+# add a new mac addresses in order to use it in a test
+# to keep tests independent do not use the same mac address in different tests
+
+# used in vcenter_host_connection_test
+mac1: "00:50:56:8b:ea:f0"
+# used in provision_vm_test and snapshot_management_test
+mac2: "00:50:56:bd:d2:9e"
+# used in provision_vm_test
+mac3: "00:50:a6:b5:b2:3c"
+# used in provision_virtual_esxi_test
+mac4: "00:50:56:8b:95:ff"
+# used in esxi_maintenance_mode_test
+mac5: "00:50:56:8b:93:a5"
