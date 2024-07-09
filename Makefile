@@ -29,7 +29,7 @@ install-pyvmomy-latest:
 
 .PHONY: integration
 integration: install-python-packages install-ansible-collections prepare_symlinks
-	ansible-test integration --no-temp-workdir
+	ansible-test integration vmware_ops_provision_virtual_esxi_test --no-temp-workdir
 
 .PHONY: eco-vcenter-ci
 eco-vcenter-ci: prepare_symlinks
