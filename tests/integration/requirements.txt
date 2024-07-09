@@ -5,6 +5,7 @@ requests
 pycdlib
 ansible-core
 
-pyVmomi>=6.7
+# see the cluster_settings role README.md for an explanation on the <7.0.3 restriction
+pyVmomi
 # automation sdk >tag:8.0.2.0 requires pyVmomi 8
 git+https://github.com/vmware/vsphere-automation-sdk-python.git@v8.0.2.0
