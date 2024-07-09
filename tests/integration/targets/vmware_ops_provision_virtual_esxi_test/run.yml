@@ -25,3 +25,4 @@
         name: vmware_ops_provision_virtual_esxi_test
       tags:
         - integration-ci
+        - eco-vcenter-ci
