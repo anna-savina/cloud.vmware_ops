@@ -1,6 +1,8 @@
 ---
 - hosts: localhost
   gather_facts: false
+  vars_files:
+    - vars.yml
   tasks:
     # the esxi ISO usually powers down new hosts when they are done
     - name: Mock ESXi Host Power Down
