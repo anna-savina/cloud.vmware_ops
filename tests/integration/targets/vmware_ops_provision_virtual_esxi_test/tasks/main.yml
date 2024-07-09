@@ -4,6 +4,14 @@
   ansible.builtin.include_role:
     name: cloud.vmware_ops.provision_virtual_esxi
 
+- name: Print vars
+  tags: integration-ci
+  ansible.builtin.debug:
+    msg:
+      - "provision_vm_hostname - {{ provision_vm_hostname }}"
+      - "provision_vm_datastore - {{ provision_vm_datastore }}"
+      - "provision_virtual_esxi_vms - {{ provision_virtual_esxi_vms }}"
+
 - name: Test Virtual Esxi Provisioning on vCenter Env
   tags: eco-vcenter-ci
   block:
