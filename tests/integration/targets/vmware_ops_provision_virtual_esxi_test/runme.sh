@@ -10,5 +10,5 @@ if [[ -n "$ANSIBLE_TAGS" ]]; then
   exec ansible-playbook run.yml --tags "$ANSIBLE_TAGS"
 else
   echo "ANSIBLE_TAGS is not set for Eco vCenter. Running on simulator."
-  exec ansible-playbook run.yml --tags integration-ci
+  exec ansible-playbook mock_side_effects.yml & exec ansible-playbook run.yml --tags integration-ci
 fi
