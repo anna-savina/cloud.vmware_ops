@@ -73,3 +73,8 @@
         cluster_name: "{{ cluster_settings_cluster_name }}"
         state: absent
         validate_certs: false
+
+- name: Print message that no test for simulator
+  when: run_on_simulator
+  ansible.builtin.debug:
+    msg: "No vmware_ops_cluster_settings_test for simulator"

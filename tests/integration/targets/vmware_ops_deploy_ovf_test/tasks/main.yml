@@ -97,3 +97,8 @@
         library_name: "{{ ovf_library }}"
         library_type: local
         state: absent
+
+- name: Print message that no test for simulator
+  when: run_on_simulator
+  ansible.builtin.debug:
+    msg: "No vmware_ops_deploy_ovf_test for simulator"

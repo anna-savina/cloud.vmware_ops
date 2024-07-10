@@ -52,3 +52,8 @@
       ansible.builtin.file:
         state: absent
         path: "{{ export_vm_as_ovf_export_dir }}"
+
+- name: Print message that no test for simulator
+  when: run_on_simulator
+  ansible.builtin.debug:
+    msg: "No vmware_ops_export_vm_as_ovf_test for simulator"

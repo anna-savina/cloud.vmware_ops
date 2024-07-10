@@ -40,3 +40,8 @@
       ansible.builtin.fail:
         msg: "Content library {{ content_library_name }} still exists"
       when: content_library_details.results | map(attribute='content_lib_details') | flatten | map(attribute='library_name') is ansible.builtin.contains(content_library_name)
+
+- name: Print message that no test for simulator
+  when: run_on_simulator
+  ansible.builtin.debug:
+    msg: "No vmware_ops_content_library_test for simulator"
