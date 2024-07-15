@@ -19,7 +19,7 @@ test_network_name: "TestNetwork"
 # used in vcenter_host_connection_test
 mac1: "00:50:56:8b:ea:f0"
 # used in provision_vm_test and snapshot_management_test
-mac2: "00:50:56:bd:d2:9e"
+# mac2: "00:50:56:bd:d2:9e"
 # used in provision_vm_test
 mac3: "00:50:a6:b5:b2:3c"
 # used in provision_virtual_esxi_test

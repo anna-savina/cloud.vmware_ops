@@ -49,11 +49,11 @@ provision_vm_cdrom:
     state: present
     type: iso
     iso_path: "{{ datastore1_rhel_9_3_iso_path }}"
-provision_vm_networks:
-  - name: "{{ vm_network_name }}"
-    device_type: "vmxnet3"
-    mac: "{{ mac2 }}"
-    type: "dhcp"
+# provision_vm_networks:
+#   - name: "{{ vm_network_name }}"
+#     device_type: "vmxnet3"
+#     mac: "{{ mac2 }}"
+#     type: "dhcp"
 provision_vm_resource_pool: null
 provision_vm_disk:
   - size_gb: 50
