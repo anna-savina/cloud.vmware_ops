@@ -17,7 +17,7 @@ provision_virtual_esxi_networks:
     - name: "{{ vm_network_name }}"
       device_type: "vmxnet3"
       type: "dhcp"
-      mac: "{{ mac_address['provision_virtual_esxi'] }}"
+      mac: '{{ mac_address["provision_virtual_esxi"] }}'
 provision_virtual_esxi_disks:
   - size_gb: 100
     type: thin
