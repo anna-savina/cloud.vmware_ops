@@ -128,7 +128,7 @@ portgroup_name: qe-network
 vm_network_to_add:
   - name: "{{ portgroup_name }}"
     device_type: "vmxnet3"
-    mac: "{{ mac3 }}"
+    # mac: "{{ mac3 }}"
     type: "dhcp"
 
 vm_updated_networks: "{{ vm_to_update.provision_vm_networks + vm_network_to_add }}"
