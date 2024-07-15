@@ -16,10 +16,9 @@ test_network_name: "TestNetwork"
 # add a new mac addresses in order to use it in a test
 # to keep tests independent do not use the same mac address in different tests
 
-mac_address:
-  # used in vcenter_host_connection_test
-  - host_connection: "00:50:56:8b:ea:f0"
-  # used in provision_virtual_esxi_test
-  - provision_virtual_esxi: "00:50:56:8b:95:ff"
-  # used in esxi_maintenance_mode_test
-  - esxi_maintenance: "00:50:56:8b:93:a5"
+# used in vcenter_host_connection_test
+mac_address_host_connection: "00:50:56:8b:ea:f0"
+# used in provision_virtual_esxi_test
+mac_address_provision_virtual_esxi: "00:50:56:8b:95:ff"
+# used in esxi_maintenance_mode_test
+mac_address_esxi_maintenance: "00:50:56:8b:93:a5"
