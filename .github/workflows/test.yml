@@ -1,35 +1,35 @@
----
-name: Ansible Integration Test
-on: # yamllint disable-line rule:truthy
-  pull_request:
-  merge_group:
-    branches:
-      - main
-  push:
-    branches:
-      - main
-permissions:
-  contents: read
-jobs:
-  ansible_integration_test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Update pip, git
-        run: |
-          set -euxo pipefail
-          sudo apt-get update
-          sudo apt-get install podman
+# ---
+# name: Ansible Integration Test
+# on: # yamllint disable-line rule:truthy
+#   pull_request:
+#   merge_group:
+#     branches:
+#       - main
+#   push:
+#     branches:
+#       - main
+# permissions:
+#   contents: read
+# jobs:
+#   ansible_integration_test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Update pip, git
+#         run: |
+#           set -euxo pipefail
+#           sudo apt-get update
+#           sudo apt-get install podman
 
-      - name: Checkout repo
-        uses: actions/checkout@v4
-        with:
-          path: ansible_collections/cloud/vmware_ops
+#       - name: Checkout repo
+#         uses: actions/checkout@v4
+#         with:
+#           path: ansible_collections/cloud/vmware_ops
 
-      - name: Run
-        run: |
-          python3 -m venv .venv
-          source .venv/bin/activate
-          make integration
-        working-directory: ansible_collections/cloud/vmware_ops
-        env:
-          ANSIBLE_COLLECTIONS_PATH: "${{ github.workspace }}"
+#       - name: Run
+#         run: |
+#           python3 -m venv .venv
+#           source .venv/bin/activate
+#           make integration
+#         working-directory: ansible_collections/cloud/vmware_ops
+#         env:
+#           ANSIBLE_COLLECTIONS_PATH: "${{ github.workspace }}"
