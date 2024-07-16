@@ -47,8 +47,16 @@
         validate_certs: false
         name: "{{ export_vm_as_ovf_vm_name }}"
         state: absent
+      retries: 5
+      delay: 5
+      register: result
+      until: result.failed == false
 
     - name: Delete Exported OVF
       ansible.builtin.file:
         state: absent
         path: "{{ export_vm_as_ovf_export_dir }}"
+      retries: 5
+      delay: 5
+      register: result
+      until: result.failed == false
