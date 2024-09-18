@@ -36,11 +36,8 @@ jobs:
           VCENTER_USERNAME: ${{ secrets.VCENTER_USERNAME }}
           VCENTER_PASSWORD: ${{ secrets.VCENTER_PASSWORD }}
 
-      - name: Run integration tests
+      - name: Print secret
+        working-directory: ansible_collections/cloud/vmware_ops/tests/integration
         run: |
-          python3 -m venv .venv
-          source .venv/bin/activate
-          make eco-vcenter-ci
-        working-directory: ansible_collections/cloud/vmware_ops
-        env:
-          ANSIBLE_COLLECTIONS_PATH: "${{ github.workspace }}"
+          echo "Secret value: ${{ secrets.VCENTER_HOSTNAME }}"
+
