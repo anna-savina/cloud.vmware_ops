@@ -7,44 +7,45 @@
         file: ../group_vars.yml
 
     - name: Create Test VM
-      community.vmware.vmware_guest:
-        hostname: "{{ vmware_ops_hostname }}"
-        username: "{{ vmware_ops_username }}"
-        password: "{{ vmware_ops_password }}"
-        validate_certs: "{{ vmware_ops_validate_certs }}"
-        name: "{{ test_vm_name }}"
-        state: poweredoff
-        folder: "{{ deploy_ovf_folder }}"
-        datacenter: "{{ deploy_ovf_datacenter_name }}"
-        cluster: "{{ vcenter_cluster_name }}"
-        disk:
-          - size_gb: 5
-            type: thick
-            autoselect_datastore: True
-        hardware: "{{ test_vm_hardware }}"
-        guest_id: rhel9_64Guest
+      ansible.builtin.include_role:
+        name: cloud.vmware_ops.provision_vm
+      vars:
+        provision_vm_name: "{{ test_vm_name }}"
 
-    - name: Export VM As OVF To Local Directory
-      community.vmware.vmware_export_ovf:
-        hostname: "{{ vmware_ops_hostname }}"
-        username: "{{ vmware_ops_username }}"
-        password: "{{ vmware_ops_password }}"
-        validate_certs: "{{ vmware_ops_validate_certs }}"
-        name: "{{ test_vm_name }}"
-        export_dir: "{{ vmware_deploy_ovf_test_export_dir }}"
+    - name: Test Export VM As OVF
+      ansible.builtin.import_role:
+        name: cloud.vmware_ops.export_vm_as_ovf
+
+    - name: Create Content Library
+      vmware.vmware_rest.content_locallibrary:
+        vcenter_hostname: "{{ vmware_ops_hostname }}"
+        vcenter_username: "{{ vmware_ops_username }}"
+        vcenter_password: "{{ vmware_ops_password }}"
+        vcenter_validate_certs: "{{ vmware_ops_validate_certs }}"
+        name: "{{ ovf_library }}"
+        description: automated
+        publish_info:
+          published: true
+          authentication_method: 'NONE'
+        storage_backings:
+          - datastore_id: "{{ lookup('vmware.vmware_rest.datastore_moid', '/' + vcenter_datacenter + '/' + deploy_ovf_datastore, **connection_args) }}"
+            type: "DATASTORE"
+        state: present
+      register: lib_info
 
     - name: Export VM As OVF To Content Library
       ansible.builtin.import_tasks: export_vm_as_ovf_content_library.yml
+      vars:
+        lib_id: "{{ lib_info.id }}"
 
   always:
-    - name: Destroy Test VM
-      community.vmware.vmware_guest:
-        hostname: "{{ vmware_ops_hostname }}"
-        username: "{{ vmware_ops_username }}"
-        password: "{{ vmware_ops_password }}"
-        validate_certs: "{{ vmware_ops_validate_certs }}"
-        name: "{{ test_vm_name }}"
-        state: absent
+    - name: Delete Test VM
+      ansible.builtin.include_role:
+        name: cloud.vmware_ops.provision_vm
+      vars:
+        provision_vm_name: "{{ test_vm_name }}"
+        provision_vm_state: "absent"
+        provision_vm_force: true
 
 - name: Test
   when: not run_on_simulator
@@ -71,22 +72,16 @@
         - "{{ vm_name_content_library }}"
 
   always:
-    - name: Destroy Test VMs
-      community.vmware.vmware_guest:
-        hostname: "{{ vmware_ops_hostname }}"
-        username: "{{ vmware_ops_username }}"
-        password: "{{ vmware_ops_password }}"
-        validate_certs: "{{ vmware_ops_validate_certs }}"
-        name: "{{ item }}"
-        state: absent
-        force: true
+    - name: Delete Test VMs
+      ansible.builtin.include_role:
+        name: cloud.vmware_ops.provision_vm
+      vars:
+        provision_vm_name: "{{ item }}"
+        provision_vm_state: "absent"
+        provision_vm_force: true
       loop:
         - "{{ vm_name_local_ovf }}"
         - "{{ vm_name_content_library }}"
-      retries: 5
-      delay: 5
-      register: result
-      until: result.failed == false
 
     - name: Delete OVF On Local Filesystem
       ansible.builtin.file:
@@ -94,15 +89,11 @@
         path: "{{ ovf_template_local | dirname }}"
 
     - name: Remove Content Library
-      community.vmware.vmware_content_library_manager:
-        hostname: "{{ vmware_ops_hostname }}"
-        username: "{{ vmware_ops_username }}"
-        password: "{{ vmware_ops_password }}"
-        validate_certs: "{{ vmware_ops_validate_certs }}"
-        library_name: "{{ ovf_library }}"
-        library_type: local
+      vmware.vmware_rest.content_locallibrary:
+        vcenter_hostname: "{{ vmware_ops_hostname }}"
+        vcenter_username: "{{ vmware_ops_username }}"
+        vcenter_password: "{{ vmware_ops_password }}"
+        vcenter_validate_certs: "{{ vmware_ops_validate_certs }}"
+        library_id: "{{ lib_info.id }}"
         state: absent
-      retries: 5
-      delay: 5
-      register: result
-      until: result.failed == false
+      when: lib_info is defined
